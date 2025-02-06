@@ -86,7 +86,13 @@ const appActions = {
   },
   connectWithFormInput: async () => {
     const url = (<HTMLInputElement>$('url')).value;
-    const token = (<HTMLInputElement>$('token')).value;
+    // Fetch token from the server
+    const response = await fetch('http://localhost:5000/token');
+    const token = await response.text(); // Assuming the token is returned as plain text
+
+    // Log token for debugging purposes
+    appendLog('Token:', token);
+
     const simulcast = (<HTMLInputElement>$('simulcast')).checked;
     const dynacast = (<HTMLInputElement>$('dynacast')).checked;
     const forceTURN = (<HTMLInputElement>$('force-turn')).checked;
