@@ -58,7 +58,7 @@ let startTime: number;
 
 const searchParams = new URLSearchParams(window.location.search);
 const storedUrl = searchParams.get('url') ?? 'ws://localhost:7880';
-const storedToken = searchParams.get('token') ?? '';
+const storedToken = searchParams.get('token') ?? 'http://localhost:5000/token';
 (<HTMLInputElement>$('url')).value = storedUrl;
 (<HTMLInputElement>$('token')).value = storedToken;
 let storedKey = searchParams.get('key');
@@ -87,12 +87,9 @@ const appActions = {
   connectWithFormInput: async () => {
     const url = (<HTMLInputElement>$('url')).value;
     // Fetch token from the server
-    const response = await fetch('http://localhost:5000/token');
+    const tokenUrl = (<HTMLInputElement>$('token')).value;
+    const response = await fetch(tokenUrl);
     const token = await response.text(); // Assuming the token is returned as plain text
-
-    // Log token for debugging purposes
-    appendLog('Token:', token);
-
     const simulcast = (<HTMLInputElement>$('simulcast')).checked;
     const dynacast = (<HTMLInputElement>$('dynacast')).checked;
     const forceTURN = (<HTMLInputElement>$('force-turn')).checked;
@@ -105,7 +102,7 @@ const appActions = {
     const e2eeEnabled = (<HTMLInputElement>$('e2ee')).checked;
     const audioOutputId = (<HTMLSelectElement>$('audio-output')).value;
 
-    updateSearchParams(url, token, cryptoKey);
+    updateSearchParams(url, tokenUrl, cryptoKey);
 
     const roomOpts: RoomOptions = {
       adaptiveStream,
