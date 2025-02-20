@@ -88,7 +88,11 @@ const appActions = {
     const url = (<HTMLInputElement>$('url')).value;
     // Fetch token from the server
     const tokenUrl = (<HTMLInputElement>$('token')).value;
-    const response = await fetch(tokenUrl);
+    const apiKey = process.env.LIVEKIT_API_KEY || 'devkey';
+    const apiSecret = process.env.LIVEKIT_API_SECRET || 'secret';
+    const participantName = 'my_participant';
+
+    const response = await fetch(`${tokenUrl}?key=${apiKey}&secret=${apiSecret}&participant-id=${participantName}`);
     const token = await response.text(); // Assuming the token is returned as plain text
     const simulcast = (<HTMLInputElement>$('simulcast')).checked;
     const dynacast = (<HTMLInputElement>$('dynacast')).checked;
