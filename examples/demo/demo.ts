@@ -88,8 +88,8 @@ const appActions = {
     const url = (<HTMLInputElement>$('url')).value;
     // Fetch token from the server
     const tokenUrl = (<HTMLInputElement>$('token')).value;
-    const apiKey = process.env.LIVEKIT_API_KEY || 'devkey';
-    const apiSecret = process.env.LIVEKIT_API_SECRET || 'secret';
+    const apiKey = 'devkey';
+    const apiSecret = 'secret';
     const participantName = 'my_participant';
 
     const tokenRequestUrl = `${tokenUrl}?key=${apiKey}&secret=${apiSecret}&participant-id=${participantName}`;
