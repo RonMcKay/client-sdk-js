@@ -92,7 +92,12 @@ const appActions = {
     const apiSecret = process.env.LIVEKIT_API_SECRET || 'secret';
     const participantName = 'my_participant';
 
-    const response = await fetch(`${tokenUrl}?key=${apiKey}&secret=${apiSecret}&participant-id=${participantName}`);
+    const tokenRequestUrl = `${tokenUrl}?key=${apiKey}&secret=${apiSecret}&participant-id=${participantName}`;
+    console.log(`Fetching participant token from: ${tokenRequestUrl}`);
+    const response = await fetch(tokenRequestUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch participant token. Status: ${response.status}, StatusText: ${response.statusText}, URL: ${response.url}`);
+    }
     const token = await response.text(); // Assuming the token is returned as plain text
     const simulcast = (<HTMLInputElement>$('simulcast')).checked;
     const dynacast = (<HTMLInputElement>$('dynacast')).checked;
